@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" 
 		xmlns:l="using:Dsm"
-     
+     SystemDecorations="None"
         
         Width="500"
         Height="130"

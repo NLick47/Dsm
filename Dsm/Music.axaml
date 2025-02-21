@@ -2,7 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Dsm.ViewModel"
+             x:DataType="vm:PlayerViewModel"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="130"
+
              x:Class="Dsm.Music">
 
     <UserControl.Styles>
@@ -10,93 +13,141 @@
             <Setter Property="FontFamily" Value="avares://Dsm/Assets/#Font Awesome 6 Free Solid" />
 
             <Setter Property="RenderTransform" Value="scale(1.6)"></Setter>
-            <Setter Property="Foreground" Value="Red"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
         </Style>
 
         <Style Selector="TextBlock.iconRegular">
             <Setter Property="FontFamily" Value="avares://Dsm/Assets/#Font Awesome 6 Free Regular" />
         </Style>
-        
+
         <Style Selector="TextBlock.step">
             <Setter Property="FontSize" Value="21"></Setter>
+            <Setter Property="RenderTransform" Value="scale(1.2,1.6)"></Setter>
         </Style>
 
         <Style Selector="TextBlock.playback">
-            <Setter Property="FontSize" Value="46"></Setter>
+            <Setter Property="FontSize" Value="45"></Setter>
         </Style>
 
         <Style Selector="Grid.middles TextBlock">
             <Setter Property="Foreground" Value="White"></Setter>
         </Style>
-        
+
         <Style Selector="ProgressBar">
             <Setter Property="Transitions">
                 <Transitions>
-                   <TransformOperationsTransition Duration="0.2" Property="RenderTransform"/>
+                    <TransformOperationsTransition Duration="0.2" Property="RenderTransform" />
                 </Transitions>
             </Setter>
         </Style>
-        
+
         <Style Selector="ProgressBar:pointerover">
             <Setter Property="RenderTransform" Value="scaleY(2.5)"></Setter>
+        </Style>
+        
+        <Style Selector="Border.custom-progress-border:pointerover">
+            <Setter Property="Background" Value="#bc8c22"></Setter>
         </Style>
     </UserControl.Styles>
 
     <Panel>
-        <Grid Background="#66000000"    ColumnDefinitions="*,*,*"
-              RowDefinitions="10,*,*"
+        <Panel.Background>
+            <ImageBrush Stretch="UniformToFill" Source="/Assets/44.jpg"></ImageBrush>
+        </Panel.Background>
+        <Grid Background="#66000000" ColumnDefinitions="*,Auto,*"
+              RowDefinitions="2,*,*"
               VerticalAlignment="Bottom">
-          
-            <TextBlock Grid.Row="1"
-                       Text="&#xf074;" Classes="iconSolid"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Margin="20,0,0,0"
-                       Grid.Column="0" />
+
+            <Border  
+                HorizontalAlignment="Left"
+                Grid.Row="1"
+                Width="40"
+                Height="30"
+                CornerRadius="5"
+                Margin="20,0,0,0"
+                Classes="custom-progress-border">
+                <TextBlock
+                           Text="&#xf074;" Classes="iconSolid"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                         
+                           Grid.Column="0" />
+            </Border>
 
 
             <Grid Grid.Row="1"
                   Grid.ZIndex="0"
                   Grid.Column="1">
                 <Grid ColumnDefinitions="*,*,*" Classes="middles">
-                    <TextBlock Text="&#xf048;"
-                               HorizontalAlignment="Left"
-                               Margin="20,0,0,0"
-                               VerticalAlignment="Center"
-                               
-                               Classes="iconSolid step" />
+                   <Border   
+                       Height="40"
+                       Padding="5,0,5,0"
+                       CornerRadius="6"
+                       Margin="0,0,15,0"
+                       Classes="custom-progress-border">
+                       <TextBlock Text="&#xf048;"
+                                  HorizontalAlignment="Center"
+                                 
+                                  VerticalAlignment="Center"
 
-                    <TextBlock Text="&#xf144;"
-                               Grid.Column="1"
-                               HorizontalAlignment="Center"
-                               Classes="iconRegular playback" />
+                                  Classes="iconSolid step" />
 
-                    <TextBlock Text="&#xf051;"
-                               Grid.Column="2"
-                               Margin="0,0,20,0"
-                               HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               Classes="iconSolid step" />
+                   </Border>
+                    
+                    <Border Grid.Column="1"
+                            Padding="3"
+                            HorizontalAlignment="Center"
+                            Classes="custom-progress-border"
+                            CornerRadius="10">
+                        <TextBlock
+                            Text="&#xf144;"
+                           
+                            Classes="iconRegular playback">
+                        </TextBlock>
+                    </Border>
+
+                   <Border 
+                       Margin="15,0,0,0"
+                       Padding="5,0,5,0"
+                       Height="40"
+                       CornerRadius="6"
+                       Classes="custom-progress-border"
+                       Grid.Column="2">
+                       <TextBlock Text="&#xf051;"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Classes="iconSolid step" />
+                   </Border>
                 </Grid>
             </Grid>
 
-            <TextBlock Grid.Row="1" Grid.Column="2" Text="&#xf0c9;"
-                       HorizontalAlignment="Right"
-                       Margin="0,0,20,0"
-                       VerticalAlignment="Center"
-                       Classes="iconSolid">
+           <Border Grid.Row="1" 
+                   Grid.Column="2"  
+                   HorizontalAlignment="Right"
+                   Width="40"
+                   Height="30"
+                   CornerRadius="5"
+                   x:Name="Unfold"
+                   Margin="0,0,20,0"
+                   Classes="custom-progress-border">
+               <TextBlock Text="&#xf0c9;"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Classes="iconSolid">
 
-            </TextBlock>
+               </TextBlock>
+           </Border>
 
             <ProgressBar
                 Grid.Row="2" Grid.ColumnSpan="3"
                 Grid.Column="0"
                 Height="6"
-                Background="Transparent"
                 VerticalAlignment="Bottom"
-                Minimum="0" Maximum="100" Value="20">
+                Minimum="0" Maximum="1" Value="{Binding Progress}">
             </ProgressBar>
         </Grid>
-
+        <Popup PlacementTarget="{Binding #Unfold}">
+            
+        </Popup>
     </Panel>
 </UserControl>

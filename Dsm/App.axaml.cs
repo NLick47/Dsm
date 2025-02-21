@@ -1,6 +1,10 @@
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Dsm.Loaders;
+using Dsm.Models;
+using Dsm.ViewModel;
 
 namespace Dsm
 {
@@ -15,9 +19,11 @@ namespace Dsm
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow()
+                {
+                    DataContext = new PlayerViewModel()
+                };
             }
-
             base.OnFrameworkInitializationCompleted();
         }
     }
